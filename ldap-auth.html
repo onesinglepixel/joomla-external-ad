@@ -1,0 +1,43 @@
+<head>
+   <link rel="stylesheet" type="text/css" href=".../ldap-auth.css">
+
+<script>
+//set up event listener
+jQuery(document).ready(function() {
+jQuery('#ajax-login').submit(function(event){
+    //stop form submission
+    event.preventDefault();
+    var formData = jQuery('#ajax-login').serialize();
+jQuery.ajax({
+    type: 'POST',
+    url: jQuery('#ajax-login').attr('action'),
+    data: formData,
+    dataType: "json"
+    }).done(function(response) {
+        console.log(response[1]);
+        if (response[2] !== ""){
+        jQuery("#form-messages").addClass("form-messages");
+        jQuery('#form-messages').html(response[2]);
+        };
+        if(response[0] > 0) { window.location.href = "/"; } ;
+    })
+    
+    
+});
+});
+</script>
+</head>
+
+<div class="form-wrapper">
+<div class="form-container">
+    <div id="form-messages"></div>
+<form id="ajax-login" method="post" action=".../ldap-check5.php">
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+        
+    <button type="submit">Login</button>
+</form>
+</div>
+</div>
